@@ -5,14 +5,28 @@
       <i class="fas fa-plus addBtn"></i>
     </span>
 
+    <Modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header">
+        경고!
+        <i class="fas fa-times closeModalBtn" @click="showModal = false"></i>
+      </h3>
+      <div slot="body">
+        todo it 입력 해주세요.
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
+import Modal from './common/Modal'
 export default {
+  components: {
+      Modal
+  },
   data() {
     return {
-      newTodoItem: ""
+      newTodoItem: "",
+      showModal: false
     }
   },
   methods: {
@@ -21,6 +35,8 @@ export default {
       if (this.newTodoItem != "") {
         this.$emit('addTodoItem', this.newTodoItem);
         this.clearInput();
+      } else {
+        this.showModal = true;
       }
     }, clearInput() {
       // 초기화
@@ -57,5 +73,9 @@ export default {
   .addBtn {
     color: white;
     vertical-align: middle;
+  }
+
+  .closeModalBtn {
+    color: #42b983;
   }
 </style>
