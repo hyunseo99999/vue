@@ -2,40 +2,27 @@
   <div>
     <ul>
       <transition-group name="list" tag="ul">
-        <li v-for="(items, i) in propsData" :key="i">
-          <i class="fas fa-solid fa-check checkBtn" v-bind:class="{checkBtnCompleted: items.completed}" @click="toggleComplete(items, i)"></i>
-          <span v-bind:class="{textCompleted: items.completed}">{{items.item}}</span>
-          <span class="removeBtn" @click="removeTodo(items, i)">
+        <li v-for="(todoItem, idx) in this.$store.state.todoItems" :key="idx">
+          <i class="fas fa-solid fa-check checkBtn" v-bind:class="{checkBtnCompleted: todoItem.completed}" @click="toggleComplete(todoItem, idx)"></i>
+          <span v-bind:class="{textCompleted: todoItem.completed}">{{todoItem.item}}</span>
+          <span class="removeBtn" @click="removeTodo(todoItem, idx)">
             <i class="fas fa-trash-alt"></i>
           </span>
         </li>
       </transition-group>
-
-
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      todoList: [],
-    }
-  }, created() {
-    // 인스턴스 생성되자마자 생성되는 라이프사이클 훅
-  },
-  props: ['propsData'] ,
   methods: {
     removeTodo(todoItem, idx) {
-      localStorage.removeItem(todoItem.item);
-      this.todoList.splice(idx, 1);
-      this.$emit('removeTodoItem', todoItem, idx);
+      this.$store.commit('removeOneItem', {todoItem, idx});
     }, toggleComplete(todoItem, idx) {
-      this.$emit('toggleTodoItem', todoItem, idx)
+      this.$store.commit('toggleOneItem', {todoItem, idx});
     }
   }
-
 }
 </script>
 

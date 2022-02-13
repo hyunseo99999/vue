@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <todo-header></todo-header>
-    <todo-input @addTodoItem="addOneItem"></todo-input>
-    <todo-list v-bind:propsData="todoItems" @removeTodoItem="removeOneItem" @toggleTodoItem="toggleOneItem"></todo-list>
-    <todo-footer @todoAllClear="removeAllItem"></todo-footer>
+    <todo-input></todo-input>
+    <todo-list></todo-list>
+    <todo-footer></todo-footer>
   </div>
 </template>
 
@@ -21,34 +21,6 @@ export default {
     TodoFooter,
     TodoInput,
     TodoList
-  }, data() {
-    return {
-      todoItems: []
-    }
-  } ,
-  created() {
-    if (localStorage.length > 0) {
-      for (let i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i) !== "loglevel:webpack-dev-server") {
-          this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-        }
-      }
-    }
-  }, methods: {
-    addOneItem(todoItem) {
-      var obj = { completed: false, item: todoItem}
-      localStorage.setItem(todoItem, JSON.stringify(obj));
-      this.todoItems.push(obj);
-    }, removeOneItem(todoItem, idx) {
-      localStorage.removeItem(todoItem.item);
-      this.todoItems.splice(idx, 1);
-    }, removeAllItem() {
-      this.todoItems = [];
-    }, toggleOneItem(todoItems, index) {
-      this.todoItems[index].completed = !this.todoItems[index].completed;
-      localStorage.removeItem(todoItems.item);
-      localStorage.setItem(todoItems.item, JSON.stringify(todoItems));
-    }
   }
 }
 </script>
@@ -70,7 +42,7 @@ button {
 }
 
 .shadow {
-  box-shadow: 5px 10px 10px rgb(0, 0, 0, 003);
+  box-shadow: 5px 10px 10px rgb(0, 0, 003);
 }
 
 </style>
