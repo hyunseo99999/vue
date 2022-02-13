@@ -1,15 +1,17 @@
 <template>
   <div>
     <ul>
-      <li v-for="(items, i) in propsData" :key="i">
-        <i class="fas fa-solid fa-check checkBtn" v-bind:class="{checkBtnCompleted: items.completed}" @click="toggleComplete(items, i)"></i>
-<!--        -->
-        <span v-bind:class="{textCompleted: items.completed}">{{items.item}}</span>
-        <span class="removeBtn" @click="removeTodo(items, i)">
-          <i class="fas fa-trash-alt"></i>
-        </span>
+      <transition-group name="list" tag="ul">
+        <li v-for="(items, i) in propsData" :key="i">
+          <i class="fas fa-solid fa-check checkBtn" v-bind:class="{checkBtnCompleted: items.completed}" @click="toggleComplete(items, i)"></i>
+          <span v-bind:class="{textCompleted: items.completed}">{{items.item}}</span>
+          <span class="removeBtn" @click="removeTodo(items, i)">
+            <i class="fas fa-trash-alt"></i>
+          </span>
+        </li>
+      </transition-group>
 
-      </li>
+
     </ul>
   </div>
 </template>
@@ -73,5 +75,13 @@ export default {
   .removeBtn {
     margin-left: auto;
     color: #de4343;
+  }
+
+  .list-enter-active, .list-leave-active {
+    transition: all 1s;
+  }
+  .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
   }
 </style>
